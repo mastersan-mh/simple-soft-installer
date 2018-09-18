@@ -1,0 +1,537 @@
+#!/bin/bash
+
+# AcetoneISO.x86_64 : CD/DVD Image Manipulator
+
+
+arch=$(uname -m)
+
+#INSTALL="yum --nogpgcheck -y install"
+INSTALL="dnf --nogpgcheck -y install"
+
+echo "arch = $arch"
+
+# non-linear video editor
+#pitivi.x86_64
+
+# $INSTALL xguest
+
+# Adobe Flash Player 11.2
+#rpm -Uvh http://linuxdownload.adobe.com/adobe-release/adobe-release-i386-1.0-1.noarch.rpm
+#$INSTALL flash-plugin
+#rpm -ivh http://rpm.livna.org/livna-release-7.rpm
+#$INSTALL kmod-nvidia xorg-x11-drv-nvidia-libs.$arch
+#$INSTALL akmod-nvidia xorg-x11-drv-nvidia-libs.$arch
+
+install_system()
+{
+$INSTALL menulibre.noarch
+$INSTALL system-config-users
+$INSTALL system-config-language.noarch
+system-config-language
+}
+
+install_svn()
+{
+
+$INSTALL subversion
+$INSTALL rabbitvcs-cli rabbitvcs-core python2-rabbitvcs
+
+# Apache server
+$INSTALL httpd
+# Apache httpd module for Subversion server
+$INSTALL mod_dav_svn
+
+## Create testuser ##
+htpasswd -cm /etc/svn-auth-users testuser
+New password: 
+Re-type new password: 
+Adding password for user testuser
+ 
+## Create testuser2 ##
+htpasswd -m /etc/svn-auth-users testuser2
+New password: 
+Re-type new password: 
+Adding password for user testuser2
+
+}
+
+#
+#========
+#
+install_antivirus()
+{
+echo "install_antivirus()"
+$INSTALL clamav.$arch clamav-data.noarch clamav-update.$arch klamav.$arch clamtk.noarch clamav-scanner-systemd.noarch clamav-scanner-upstart.noarch
+}
+
+#
+#========
+#
+install_archivers()
+{
+echo "install_archivers()"
+$INSTALL unrar.$arch
+$INSTALL libunrar.$arch
+}
+
+#
+#========
+#
+install_audio()
+{
+echo "install_audio()"
+#регулятор громкости, приятнее, чем Kmix
+$INSTALL pavucontrol.$arch
+
+$INSTALL audacious.$arch
+$INSTALL audacious-plugins-freeworld-mp3.$arch
+$INSTALL audacity.$arch
+$INSTALL easytag.$arch
+$INSTALL tuxguitar.$arch
+#настройка гитар
+#$INSTALL lingot.$arch
+$INSTALL k3guitune.$arch
+#требуется для запуска guitar pro 6
+#$INSTALL portaudio.i686
+
+# модуль декодирования mp3 для k3b
+$INSTALL libmad
+}
+
+#
+# cad systems
+#
+install_cads()
+{
+    $INSTALL kicad
+}
+
+#
+#========
+#
+install_codecs()
+{
+echo "install_codecs()"
+$INSTALL gstreamer-plugins-ugly gstreamer-plugins-good gstreamer-plugins-bad gstreamer-plugins-bad-extras gstreamer-plugins-ugly gstreamer-ffmpeg x264 x264-libs
+# gstreamer1-plugins-base gstreamer1-plugins-good gstreamer1-plugins-ugly gstreamer1-plugins-bad-free gstreamer1-plugins-bad-free gstreamer1-plugins-bad-freeworld gstreamer1-plugins-bad-free-extras ffmpeg
+}
+
+#
+#========
+#
+install_compilers()
+{
+echo "install_compilers()"
+$INSTALL gcc-c++
+#для разработки
+$INSTALL mesa-libGL-devel
+#java develop
+$INSTALL java-1.7.0-openjdk-devel
+
+#Tool for static C/C++ code analysis
+$INSTALL cppcheck.$arch
+
+$INSTALL qt-demos.$arch qt-examples.$arch qt-creator.$arch
+
+
+}
+
+#
+#========
+#
+install_core()
+{
+echo "install_core()"
+# для компиляции драйверов
+$INSTALL gcc.$arch
+$INSTALL kernel-devel.$arch
+#$INSTALL kde-plasma-cpufrequtility.$arch
+
+#SElinux graphic config
+$INSTALL policycoreutils-gui.$arch
+
+$INSTALL rpm-build cabextract ttmkfdir
+$INSTALL binutils.$arch
+
+}
+
+#
+#========
+#
+install_graphic()
+{
+echo "install_graphic()"
+$INSTALL gimp.$arch
+}
+
+#
+#========
+#
+install_hdd()
+{
+echo "install_hdd()"
+#дисковые утилиты
+$INSTALL kde-partitionmanager.$arch
+$INSTALL kdf.$arch
+# оценка размеров папок и файлов
+$INSTALL filelight.$arch
+#$INSTALL quota.$arch
+}
+
+#
+#========
+#
+install_net()
+{
+echo "install_net()"
+$INSTALL pidgin.$arch
+$INSTALL firefox.$arch
+$INSTALL thunderbird.$arch
+$INSTALL samba.$arch samba-client.$arch
+#NFS server
+$INSTALL nfs-utils.$arch nfs-utils-lib.$arch
+$INSTALL system-config-nfs.noarch system-config-nfs-docs.noarch
+#ftp daemon
+$INSTALL vsftpd.$arch
+}
+
+#
+#========
+#
+install_office()
+{
+echo "install_office()"
+#офис
+$INSTALL libreoffice.$arch
+$INSTALL libreoffice-kde.$arch
+# распознавалка текста
+$INSTALL gimagereader-qt.$arch
+}
+
+install_russian()
+{
+echo "install_russian()"
+#KDE russian support
+$INSTALL kde-l10n-Russian.noarch
+}
+
+#
+#========
+#
+install_rpmfusion()
+{
+echo "install_rpmfusion()"
+#$INSTALL http://mirror.yandex.ru/fedora/russianfedora/russianfedora/free/fedora/russianfedora-free-release-stable.noarch.rpm
+#$INSTALL http://mirror.yandex.ru/fedora/russianfedora/russianfedora/nonfree/fedora/russianfedora-nonfree-release-stable.noarch.rpm
+
+#$INSTALL localinstall http://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-stable.noarch.rpm
+#$INSTALL localinstall http://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-stable.noarch.rpm
+
+#$INSTALL localinstall http://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm
+#$INSTALL localinstall http://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm
+
+$INSTALL http://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-stable.noarch.rpm
+$INSTALL http://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-stable.noarch.rpm
+
+$INSTALL http://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm
+$INSTALL http://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm
+
+
+#rpm --import http://elrepo.org/RPM-GPG-KEY-elrepo.org
+#rpm -Uvh http://elrepo.org/elrepo-release-5-3.el5.elrepo.noarch.rpm
+#rpm -Uvh http://www.elrepo.org/elrepo-release-6-6.el6.elrepo.noarch.rpm
+
+}
+
+#
+#========
+#
+install_SDL()
+{
+echo "install_SDL()"
+
+# для установки 32-битной библиотеки на 64 бита
+if test $arch == "x86_64" ; then
+	$INSTALL SDL.i686
+fi
+$INSTALL SDL.$arch
+}
+
+#
+#========
+#
+install_skype32on64()
+{
+echo "install_skype32on64()"
+
+# для установки 32-битного скайпа на 64 бита
+if test $arch == "x86_64" ; then
+        $INSTALL libXv.i686 libXScrnSaver.i686 qt.i686 qt-x11.i686 pulseaudio-libs.i686 pulseaudio-libs-glib2.i686 alsa-plugins-pulseaudio.i686
+# драйвер на камеру для ноутов ASUS, а то у них изображение в skype перевёрнуто
+        $INSTALL libv4l.i686
+fi
+}
+
+#
+#========
+#
+install_update()
+{
+  echo "install_update()"
+  $INSTALL update
+}
+
+#
+#========
+#
+install_video()
+{
+echo "install_video()"
+
+$INSTALL vlc.$arch
+}
+
+#
+#========
+#
+install_virtual_machines()
+{
+echo "install_virtual_machines()"
+
+$INSTALL VirtualBox.$arch
+$INSTALL wine.$arch
+$INSTALL dosbox.$arch
+
+}
+
+#
+#========
+#
+install_section()
+{
+  case $1 in
+    0) install_rpmfusion ;;
+    1) install_russian ;;
+    2) install_antivirus ;;
+    3) install_archivers ;;
+    4) install_audio ;;
+    5) install_cads ;;
+    6) install_codecs ;;
+    7) install_compilers ;;
+    8) install_core ;;
+    9) install_graphic ;;
+    10) install_hdd ;;
+    11) install_net ;;
+    12) install_office ;;
+    13) install_SDL ;;
+    14) install_skype32on64 ;;
+    15) install_video ;;
+    16) install_virtual_machines ;;
+    17) install_update ;;
+  esac
+}
+
+#
+# добавить элемент
+#
+insert()
+{
+  local dup=0
+  local c=0
+  while [ $c -lt ${#install[*]} ] ; do
+    if [ ${install[$c]} -eq $1 ] ; then
+      dup=1
+      break;
+    fi
+    let c+=1
+  done
+
+  if [ $dup -eq 0 ] ; then
+    install[$icounter]=$1
+    let icounter+=1 ;
+  fi
+}
+
+#
+# удалить элемент
+#
+delete()
+{
+#поиск
+  local found=0
+  local c=0
+  local amnt=${#install[*]}
+  echo amnt=$amnt
+  while [ $c -lt $amnt ] ; do
+    if [ ${install[$c]} -eq $1 ] ; then
+      found=1
+      break;
+    fi
+    let c+=1
+  done
+  echo f=$found c=$c
+#нашли
+  if [ $found -eq 1 ] ; then
+    let amnt=$amnt-1
+echo amnt=$amnt
+    while [ $c -lt $amnt ] ; do
+      let next=$c+1
+      install[$c]=${install[$next]}
+      let c+=1
+    done
+  echo c=$c
+  unset install[$c]
+  let icounter-=1  
+  
+  fi
+}
+
+i_help()
+{
+str=\
+"$0 usage\n"\
+"$0 [OPTIONS]\n"\
+"OPTIONS:\n"\
+"\t++all\t- install all components\n"\
+"\t++rpmfusion\n"\
+"\t++russian\n"\
+"\t++antivirus\n"\
+"\t++archivers\n"\
+"\t++audio\n"\
+"\t++cads\n"\
+"\t++codecs\n"\
+"\t++compilers\n"\
+"\t++core\n"\
+"\t++graphic\n"\
+"\t++hdd\n"\
+"\t++net\n"\
+"\t++office\n"\
+"\t++SDL\n"\
+"\t++skype32on64\n"\
+"\t++video\n"\
+"\t++virtual_machines\n"\
+"\t++update\n"\
+"\t--rpmfusion\n"\
+"\t--russian\n"\
+"\t--antivirus\n"\
+"\t--archivers\n"\
+"\t--audio\n"\
+"\t--cads\n"\
+"\t--codecs\n"\
+"\t--compilers\n"\
+"\t--core\n"\
+"\t--graphic\n"\
+"\t--hdd\n"\
+"\t--net\n"\
+"\t--office\n"\
+"\t--SDL\n"\
+"\t--skype32on64\n"\
+"\t--video\n"\
+"\t--virtual_machines\n"\
+"\t--update\n"\
+""
+
+echo -e $str
+}
+
+#
+#========
+#
+main()
+{
+  for arg in $*
+  do
+    case $arg in
+      --help)
+	i_help
+	exit
+      ;;
+      ++all)
+        local c=0
+        while [ $c -lt 16 ]; do
+          insert $c ;
+          let c+=1
+        done
+      ;;
+      ++rpmfusion)		insert 0 ; ;;
+      ++russian)		insert 1 ; ;;
+      ++antivirus)		insert 2 ; ;;
+      ++archivers)		insert 3 ; ;;
+      ++audio)			insert 4 ; ;;
+      ++cads)			insert 5 ; ;;
+      ++codecs)			insert 6 ; ;;
+      ++compilers)		insert 7 ; ;;
+      ++core)			insert 8 ; ;;
+      ++graphic)		insert 9 ; ;;
+      ++hdd)			insert 10 ; ;;
+      ++net)			insert 11 ; ;;
+      ++office)			insert 12 ; ;;
+      ++SDL)			insert 13 ; ;;
+      ++skype32on64)		insert 14 ; ;;
+      ++video)			insert 15 ; ;;
+      ++virtual_machines)	insert 16 ; ;;
+      ++update) 		insert 17 ; ;;
+      --rpmfusion)		delete 0 ; ;;
+      --russian)		delete 1 ; ;;
+      --antivirus)		delete 2 ; ;;
+      --archivers)		delete 3 ; ;;
+      --audio)			delete 4 ; ;;
+      --cads)			delete 5 ; ;;
+      --codecs)			delete 6 ; ;;
+      --compilers)		delete 7 ; ;;
+      --core)			delete 8 ; ;;
+      --graphic)		delete 9 ; ;;
+      --hdd)			delete 10 ; ;;
+      --net)			delete 11 ; ;;
+      --office)			delete 12 ; ;;
+      --SDL)			delete 13 ; ;;
+      --skype32on64)		delete 14 ; ;;
+      --video)			delete 15 ; ;;
+      --virtual_machines)	delete 16 ; ;;
+      --update) 		delete 17 ; ;;
+      *)
+      echo "unknown argument \"$arg\""
+      unset install[*]
+      break
+      ;;
+    esac
+  done
+
+  c=0
+  while [ $c -lt ${#install[*]} ] ; do
+    install_section ${install[$c]}
+    let c+=1
+  done
+}
+
+
+icounter=0
+
+main $*
+
+
+#========
+#для управления питанием
+#$INSTALL kernel-tools.$arch
+#systemctl enable cpupower
+#systemctl status cpupower
+#kwrite /etc/sysconfig/cpupower
+
+
+#You can make the changes permanent by editing /etc/default/grub and adding
+
+#GRUB_CMDLINE_LINUX_DEFAULT="intel_pstate=disable"
+
+#And then updating grub.cfg ala grub-mkconfig -o /boot/grub/grub.cfg 
+
+#cpupower -c all frequency-info --hwfreq
+#cpupower -c all frequency-set -g powersave
+#cpupower -c all frequency-set -g ondemand
+
+
+#(20:51:58) Быков Алексей: Как драйвер на видюху ставить знаешь?
+#(20:52:04) Быков Алексей: su
+#(20:52:23) Быков Алексей: $INSTALL install akmod-nvidia вроде так
+#(20:52:35) Быков Алексей: Именно akmod надо установить
+#(20:53:17) Быков Алексей: Иначе каждый раз при обновлении ядра придется вручную скачивать пакет с драйвером
+#(20:54:22) Быков Алексей: Еще один интересный факт - драйвер начинает работать только через несколько дней после установки
