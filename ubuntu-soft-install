@@ -5,10 +5,35 @@
 
 arch=$(uname -m)
 
-#INSTALL="yum --nogpgcheck -y install"
-INSTALL="dnf --nogpgcheck -y install"
+INSTALL="apt install"
 
 echo "arch = $arch"
+
+install_games()
+{
+${INSTALL} \
+minetest \
+minetest-data \
+minetest-mod-advspawning \
+minetest-mod-animalmaterials \
+minetest-mod-animals \
+minetest-mod-character-creator \
+minetest-mod-craftguide \
+minetest-mod-homedecor \
+minetest-mod-maidroid \
+minetest-mod-mesecons \
+minetest-mod-moreblocks \
+minetest-mod-moreores \
+minetest-mod-nether \
+minetest-mod-pipeworks \
+minetest-mod-player-3d-armor \
+minetest-mod-quartz \
+minetest-mod-torches \
+minetest-mod-unifieddyes \
+minetest-mod-worldedit \
+minetest-server
+
+}
 
 # non-linear video editor
 #pitivi.x86_64
@@ -22,36 +47,49 @@ echo "arch = $arch"
 #$INSTALL kmod-nvidia xorg-x11-drv-nvidia-libs.$arch
 #$INSTALL akmod-nvidia xorg-x11-drv-nvidia-libs.$arch
 
+#eclipse:
+#snap install eclipse --classic
+
+
+sudo $INSTALL autotools-dev
+sudo $INSTALL automake
+
+sudo $INSTALL git
+
+sudo $INSTALL libgl1-mesa-dev
+sudo $INSTALL libncursesw5-dev
+
+
 install_system()
 {
-$INSTALL menulibre.noarch
-$INSTALL system-config-users
-$INSTALL system-config-language.noarch
-system-config-language
+#?$INSTALL menulibre.noarch
+#?$INSTALL system-config-users
+#?$INSTALL system-config-language.noarch
+#?system-config-language
 }
 
 install_svn()
 {
 
 $INSTALL subversion
-$INSTALL rabbitvcs-cli rabbitvcs-core python2-rabbitvcs
+#?$INSTALL rabbitvcs-cli rabbitvcs-core python2-rabbitvcs
 
 # Apache server
-$INSTALL httpd
+$INSTALL apache2
 # Apache httpd module for Subversion server
-$INSTALL mod_dav_svn
+$INSTALL libapache2-mod-svn
 
 ## Create testuser ##
-htpasswd -cm /etc/svn-auth-users testuser
-New password: 
-Re-type new password: 
-Adding password for user testuser
+#htpasswd -cm /etc/svn-auth-users testuser
+#New password: 
+#Re-type new password: 
+#Adding password for user testuser
  
 ## Create testuser2 ##
-htpasswd -m /etc/svn-auth-users testuser2
-New password: 
-Re-type new password: 
-Adding password for user testuser2
+#htpasswd -m /etc/svn-auth-users testuser2
+#New password: 
+#Re-type new password: 
+#Adding password for user testuser2
 
 }
 
@@ -61,7 +99,7 @@ Adding password for user testuser2
 install_antivirus()
 {
 echo "install_antivirus()"
-$INSTALL clamav.$arch clamav-data.noarch clamav-update.$arch klamav.$arch clamtk.noarch clamav-scanner-systemd.noarch clamav-scanner-upstart.noarch
+#?$INSTALL clamav.$arch clamav-data.noarch clamav-update.$arch klamav.$arch clamtk.noarch clamav-scanner-systemd.noarch clamav-scanner-upstart.noarch
 }
 
 #
@@ -70,8 +108,8 @@ $INSTALL clamav.$arch clamav-data.noarch clamav-update.$arch klamav.$arch clamtk
 install_archivers()
 {
 echo "install_archivers()"
-$INSTALL unrar.$arch
-$INSTALL libunrar.$arch
+$INSTALL unrar
+#?$INSTALL libunrar
 }
 
 #
@@ -81,21 +119,21 @@ install_audio()
 {
 echo "install_audio()"
 #регулятор громкости, приятнее, чем Kmix
-$INSTALL pavucontrol.$arch
+#?$INSTALL pavucontrol.$arch
 
-$INSTALL audacious.$arch
-$INSTALL audacious-plugins-freeworld-mp3.$arch
-$INSTALL audacity.$arch
-$INSTALL easytag.$arch
-$INSTALL tuxguitar.$arch
+$INSTALL audacious
+#$INSTALL audacious-plugins-freeworld-mp3
+$INSTALL audacity
+$INSTALL easytag
+$INSTALL tuxguitar
 #настройка гитар
 #$INSTALL lingot.$arch
-$INSTALL k3guitune.$arch
+#?$INSTALL k3guitune.$arch
 #требуется для запуска guitar pro 6
 #$INSTALL portaudio.i686
 
 # модуль декодирования mp3 для k3b
-$INSTALL libmad
+#?$INSTALL libmad
 }
 
 #
@@ -103,6 +141,9 @@ $INSTALL libmad
 #
 install_cads()
 {
+    add-apt-repository ppa:js-reynaud/kicad-4
+    add-apt-repository ppa:js-reynaud/kicad-5
+    apt-get update
     $INSTALL kicad
 }
 
@@ -112,7 +153,7 @@ install_cads()
 install_codecs()
 {
 echo "install_codecs()"
-$INSTALL gstreamer-plugins-ugly gstreamer-plugins-good gstreamer-plugins-bad gstreamer-plugins-bad-extras gstreamer-plugins-ugly gstreamer-ffmpeg x264 x264-libs
+#?$INSTALL gstreamer-plugins-ugly gstreamer-plugins-good gstreamer-plugins-bad gstreamer-plugins-bad-extras gstreamer-plugins-ugly gstreamer-ffmpeg x264 x264-libs
 # gstreamer1-plugins-base gstreamer1-plugins-good gstreamer1-plugins-ugly gstreamer1-plugins-bad-free gstreamer1-plugins-bad-free gstreamer1-plugins-bad-freeworld gstreamer1-plugins-bad-free-extras ffmpeg
 }
 
@@ -122,16 +163,17 @@ $INSTALL gstreamer-plugins-ugly gstreamer-plugins-good gstreamer-plugins-bad gst
 install_compilers()
 {
 echo "install_compilers()"
-$INSTALL gcc-c++
+#?$INSTALL gcc.$arch
+#?$INSTALL gcc-c++
 #для разработки
-$INSTALL mesa-libGL-devel
+#?$INSTALL mesa-libGL-devel
 #java develop
-$INSTALL java-1.7.0-openjdk-devel
+#?$INSTALL java-1.7.0-openjdk-devel
 
 #Tool for static C/C++ code analysis
-$INSTALL cppcheck.$arch
+$INSTALL cppcheck
 
-$INSTALL qt-demos.$arch qt-examples.$arch qt-creator.$arch
+#$INSTALL qt-demos.$arch qt-examples.$arch qt-creator.$arch
 
 
 }
@@ -143,15 +185,14 @@ install_core()
 {
 echo "install_core()"
 # для компиляции драйверов
-$INSTALL gcc.$arch
-$INSTALL kernel-devel.$arch
+#?$INSTALL kernel-devel
 #$INSTALL kde-plasma-cpufrequtility.$arch
 
 #SElinux graphic config
-$INSTALL policycoreutils-gui.$arch
+#?$INSTALL policycoreutils-gui.$arch
 
-$INSTALL rpm-build cabextract ttmkfdir
-$INSTALL binutils.$arch
+#?$INSTALL rpm-build cabextract ttmkfdir
+#?$INSTALL binutils
 
 }
 
@@ -161,7 +202,7 @@ $INSTALL binutils.$arch
 install_graphic()
 {
 echo "install_graphic()"
-$INSTALL gimp.$arch
+$INSTALL gimp
 }
 
 #
@@ -171,10 +212,10 @@ install_hdd()
 {
 echo "install_hdd()"
 #дисковые утилиты
-$INSTALL kde-partitionmanager.$arch
-$INSTALL kdf.$arch
+#?$INSTALL kde-partitionmanager.$arch
+#?$INSTALL kdf.$arch
 # оценка размеров папок и файлов
-$INSTALL filelight.$arch
+$INSTALL filelight
 #$INSTALL quota.$arch
 }
 
@@ -184,15 +225,16 @@ $INSTALL filelight.$arch
 install_net()
 {
 echo "install_net()"
-$INSTALL pidgin.$arch
-$INSTALL firefox.$arch
-$INSTALL thunderbird.$arch
-$INSTALL samba.$arch samba-client.$arch
+$INSTALL firewalld firewall-config firewall-config
+$INSTALL pidgin
+$INSTALL firefox
+$INSTALL thunderbird
+$INSTALL samba samba-client
 #NFS server
-$INSTALL nfs-utils.$arch nfs-utils-lib.$arch
-$INSTALL system-config-nfs.noarch system-config-nfs-docs.noarch
+#?$INSTALL nfs-utils.$arch nfs-utils-lib.$arch
+#?$INSTALL system-config-nfs.noarch system-config-nfs-docs.noarch
 #ftp daemon
-$INSTALL vsftpd.$arch
+#?$INSTALL vsftpd.$arch
 }
 
 #
@@ -201,18 +243,19 @@ $INSTALL vsftpd.$arch
 install_office()
 {
 echo "install_office()"
+$INSTALL krusader
 #офис
-$INSTALL libreoffice.$arch
-$INSTALL libreoffice-kde.$arch
+#?$INSTALL libreoffice
+#?$INSTALL libreoffice-kde
 # распознавалка текста
-$INSTALL gimagereader-qt.$arch
+#?$INSTALL gimagereader-qt
 }
 
 install_russian()
 {
 echo "install_russian()"
 #KDE russian support
-$INSTALL kde-l10n-Russian.noarch
+#?$INSTALL kde-l10n-Russian.noarch
 }
 
 #
@@ -230,11 +273,11 @@ echo "install_rpmfusion()"
 #$INSTALL localinstall http://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm
 #$INSTALL localinstall http://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm
 
-$INSTALL http://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-stable.noarch.rpm
-$INSTALL http://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-stable.noarch.rpm
+#?$INSTALL http://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-stable.noarch.rpm
+#?$INSTALL http://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-stable.noarch.rpm
 
-$INSTALL http://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm
-$INSTALL http://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm
+#?$INSTALL http://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm
+#?$INSTALL http://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm
 
 
 #rpm --import http://elrepo.org/RPM-GPG-KEY-elrepo.org
@@ -251,10 +294,10 @@ install_SDL()
 echo "install_SDL()"
 
 # для установки 32-битной библиотеки на 64 бита
-if test $arch == "x86_64" ; then
-	$INSTALL SDL.i686
-fi
-$INSTALL SDL.$arch
+#?if test $arch == "x86_64" ; then
+#?	$INSTALL SDL.i686
+#?fi
+#?$INSTALL SDL
 }
 
 #
@@ -265,11 +308,11 @@ install_skype32on64()
 echo "install_skype32on64()"
 
 # для установки 32-битного скайпа на 64 бита
-if test $arch == "x86_64" ; then
-        $INSTALL libXv.i686 libXScrnSaver.i686 qt.i686 qt-x11.i686 pulseaudio-libs.i686 pulseaudio-libs-glib2.i686 alsa-plugins-pulseaudio.i686
+#?if test $arch == "x86_64" ; then
+#?        $INSTALL libXv.i686 libXScrnSaver.i686 qt.i686 qt-x11.i686 pulseaudio-libs.i686 pulseaudio-libs-glib2.i686 alsa-plugins-pulseaudio.i686
 # драйвер на камеру для ноутов ASUS, а то у них изображение в skype перевёрнуто
-        $INSTALL libv4l.i686
-fi
+#?        $INSTALL libv4l.i686
+#?fi
 }
 
 #
@@ -278,7 +321,7 @@ fi
 install_update()
 {
   echo "install_update()"
-  $INSTALL update
+#?  $INSTALL update
 }
 
 #
@@ -300,9 +343,11 @@ install_virtual_machines()
 {
 echo "install_virtual_machines()"
 
-$INSTALL VirtualBox.$arch
-$INSTALL wine.$arch
-$INSTALL dosbox.$arch
+#!$INSTALL VirtualBox
+$INSTALL virtualbox-qt
+
+$INSTALL wine-stable
+$INSTALL dosbox
 
 }
 
@@ -537,3 +582,4 @@ main $*
 #(20:52:35) Быков Алексей: Именно akmod надо установить
 #(20:53:17) Быков Алексей: Иначе каждый раз при обновлении ядра придется вручную скачивать пакет с драйвером
 #(20:54:22) Быков Алексей: Еще один интересный факт - драйвер начинает работать только через несколько дней после установки
+
